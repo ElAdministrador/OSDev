@@ -1,0 +1,10 @@
+target remote localhost:1234
+
+symbol-file kernel/deros.bin
+
+layout asm
+layout next
+
+break kernel_main
+
+continue

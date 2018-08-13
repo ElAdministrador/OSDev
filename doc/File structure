@@ -1,0 +1,46 @@
+
+OSDev
+	# Folder for documentation
+	doc/
+
+	# Script that cleans up source tree
+	clean.sh
+
+	# Script that builds the OS
+	build.sh
+
+	# Script that installs libc and the kernel headers to sysroot/usr/include
+	headers.sh
+
+	# development folder for kernel headers
+	kernel/
+		# architecture dependend source files
+		arch/
+			# device specific sources
+			i386/
+		include/
+		kernel/
+			# kernel main
+			kernel.c
+
+	# development folder for libc [used later for user-space]
+	# libc gets compiled into the kernel 'libk.a' [and into the user-space "libc.a"]
+	libc/
+		stdio/
+		stdlib/
+		string/
+
+	# Root directory of the build OS
+	sysroot/
+		# Bootfolder and binary
+		boot/
+			grub/
+				grub.cfg
+			deros.bin
+
+		# user-space library files
+		usr/
+			# system headers
+			include/
+			# system libraries
+			lib/

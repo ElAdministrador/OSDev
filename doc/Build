@@ -1,0 +1,6 @@
+
+
+./clean.sh
+./header.sh
+./build.sh
+./qemu.sh
