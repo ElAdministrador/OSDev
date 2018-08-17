@@ -53,7 +53,7 @@
  * 
  * Make sure Interrupts are disabled when calling this function.
  */
-extern unsigned int loadGdt(uint32_t base, uint16_t limit);
+extern void loadGdt(uint32_t base, uint16_t limit);
 
 void create_segment_descriptor(uint8_t* descriptor,
     uint32_t base, uint32_t limit, uint16_t flag);

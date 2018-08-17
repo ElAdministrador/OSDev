@@ -5,6 +5,7 @@ symbol-file kernel/deros.bin
 layout asm
 layout next
 
+#break _start
 break kernel_main
 
 continue

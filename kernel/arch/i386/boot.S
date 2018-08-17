@@ -73,9 +73,7 @@ _start:
 	runtime support to work as well.
 	*/
 
-    /* Load GDT */
-	mov 0x0, %eax
-	lgdt (%eax)
+    /* GDT is loaded in Kernel main */
 
 	# Call the global constructors.
 	call _init

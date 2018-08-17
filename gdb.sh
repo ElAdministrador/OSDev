@@ -6,4 +6,4 @@ set -e
 
 # for GDB on localhost:1234
 qemu-system-$(./target-triplet-to-arch.sh $HOST) -kernel sysroot/boot/deros.bin -s -S &
-gnome-terminal --maximize -e 'gdb --command=gdb_commands --nh'
+gnome-terminal -e 'gdb --command=gdb_commands --nh' #--maximize 
