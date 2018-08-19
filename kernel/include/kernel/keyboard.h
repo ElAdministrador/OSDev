@@ -11,8 +11,8 @@ static const uint16_t KB_DATA_PORT = 0x60;
 #include <kernel/tty.h>
 
 /*
- PS/2 keyboard code
-*/
+ * PS/2 keyboard code
+ */
 char getChar();
 uint8_t getScancode();
 void processScancode(uint8_t c);

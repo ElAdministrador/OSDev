@@ -62,10 +62,6 @@ deros.bin: $(OBJS) $(ARCHDIR)/linker.ld
 $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
 	OBJ=`$(CC) $(CFLAGS) $(LDFLAGS) -print-file-name=$(@F)` && cp "$$OBJ" $@
 
-# compile gdtInt assembled file into the gdt.o
-#$(ARCHDIR)/gdt.o: $(ARCHDIR)/gdt.c $(ARCHDIR)/gdtInt.o
-	#$(CC) -MD -c $^ -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
-
 %.o: %.c
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
