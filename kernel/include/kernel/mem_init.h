@@ -2,6 +2,7 @@
 #define _MEM_INIT_H_
 
 #include <kernel/gdt.h>
+#include <kernel/paging.h>
 
 #define GDT_SIZE 12
 
@@ -13,5 +14,10 @@ static const uint32_t GDT_LIMIT_ADDRESS = GDT_BASE_ADDRESS + sizeof(GDT);
  * Wrap up the loading of the GDT and set the default descriptors.
  */
 void init_gdt(void);
+
+/*
+ * Loading page directory and page tables and avtivate paging.
+ */
+void init_paging(void);
 
 #endif

@@ -7,11 +7,13 @@
 
 void kernel_main(void) {
 
+	// Initialize memory management
+	init_gdt();
+	//init_paging();
+
 	// Initialize terminal and perform some tests.
 	terminal_initialize();
 	printf("Hello, %s%d%d!\n", "deros v", 0,1);
-
-	init_gdt();
 
 	printf ("\n");
 	while(1) {

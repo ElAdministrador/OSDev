@@ -1,7 +1,7 @@
 #include <kernel/mem_init.h>
 
-void init_gdt() {
-
+void init_gdt()
+{
     // Initialize GDT
     loadGdt((uint32_t) GDT_BASE_ADDRESS,(uint16_t) GDT_LIMIT_ADDRESS);
     
@@ -18,4 +18,15 @@ void init_gdt() {
     // user data segment descriptor
     create_segment_descriptor((uint8_t*) GDT_BASE_ADDRESS+40, 0x0, 0xfffff, (GDT_DATA_PL3));
 
-};
+}
+
+void init_paging()
+{
+    blank_page_dir();
+
+    // TODO assign kernel code as page in first page table
+    fill_first_page_table();
+    page_directory[0] = ((unsigned int) first_page_table) | 3;
+
+    enablePaging();
+}
