@@ -20,9 +20,6 @@
 #define PAGE_DIR_SIZE 1024
 #define PAGE_TAB_SIZE 1024
 
-uint32_t page_directory[PAGE_DIR_SIZE] __attribute__((aligned(4096)));
-uint32_t first_page_table[PAGE_TAB_SIZE] __attribute__((aligned(4096)));
-
 /*
  * Initialize blank page directory.
  * Used first when there aren't any page tables yet.
@@ -34,6 +31,9 @@ void blank_page_dir(uint32_t*);
  * Entry flags: supervisor, read&write, present
  */
 void blank_page_table(uint32_t*);
+
+// Debug function
+void* get_physaddr(void* virtualaddr);
 
 // Enable the paging.
 extern void enablePaging(uint32_t page_directory_addr);

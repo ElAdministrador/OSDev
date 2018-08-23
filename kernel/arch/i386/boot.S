@@ -47,19 +47,16 @@ doesn't make sense to return from this function as the bootloader is gone.
 .type _start, @function
 _start:
     /*
-	The bootloader has loaded us into 32-bit protected mode on a x86
+	The bootloader has loaded us into 32-bit flat protected mode on a x86
 	machine. Interrupts are disabled. Paging is disabled. The processor
 	state is as defined in the multiboot standard. The kernel has full
 	control of the CPU. The kernel can only make use of hardware features
-	and any code it provides as part of itself. There's no printf
-	function, unless the kernel provides its own <stdio.h> header and a
-	printf implementation. There are no security restrictions, no
+	and any code it provides as part of itself. There are no security restrictions, no
 	safeguards, no debugging mechanisms, only what the kernel provides
-	itself. It has absolute and complete power over the
-	machine.
+	itself. It has absolute and complete power over the	machine.
 	*/
 
-    /* set esp at the 'lowest' stack cell (remember x86 stack growth top->bottom) */
+    /* Set esp at the 'lowest' stack cell (remember x86 stack growth top->bottom) */
 	movl $stack_top, %esp
 
     /*

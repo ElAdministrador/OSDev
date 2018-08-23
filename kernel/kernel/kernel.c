@@ -5,6 +5,9 @@
 #include <kernel/mem_init.h>
 #include <string.h>
 
+// Debugging
+#include <kernel/paging.h>
+
 void kernel_main(void) {
 
 	// Initialize memory management
@@ -16,12 +19,20 @@ void kernel_main(void) {
 	printf("Hello, %s%d%d!\n", "deros v", 0,1);
 
 	printf("\n");
-	uint32_t t1 = *((uint32_t*) 0x100000);
-	uint32_t t2 = *((uint32_t*) 0x101000);
-	printf("t1 %p\n", &t1);
-	printf("t2 %p\n", &t2);
-	printf("tp1 0x%x\n", t1);
-	printf("tp2 0x%x\n", t2);
+	printf("virt %x phys %p\n", 0x100000, get_physaddr((void*) 0x100000));
+	printf("virt %x phys %p\n", 0x100001, get_physaddr((void*) 0x100001));
+	printf("virt %x phys %p\n", 0x100010, get_physaddr((void*) 0x100010));
+	printf("virt %x phys %p\n", 0x100100, get_physaddr((void*) 0x100100));
+	printf("virt %x phys %p\n", 0x101000, get_physaddr((void*) 0x101000));
+	printf("virt %x phys %p\n", 0x101001, get_physaddr((void*) 0x101001));
+	printf("virt %x phys %p\n", 0x110000, get_physaddr((void*) 0x110000));
+	printf("virt %x phys %p\n", 0x111111, get_physaddr((void*) 0x111111));
+	printf("virt kernel_main:%x phys %p\n", (uint32_t) &kernel_main,
+		get_physaddr((void*) &kernel_main));
+	printf("virt pd:%x phys %p\n", (uint32_t) &page_directory,
+		get_physaddr((void*) &page_directory));
+	printf("virt pt:%x phys %p\n", (uint32_t) &master_page_table,
+		get_physaddr((void*) &master_page_table));
 
 	printf ("\n");
 	while(1) {

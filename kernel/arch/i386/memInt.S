@@ -4,6 +4,11 @@ gdtloc:
     .short 0 # GDT limit address storage
     .int 0   # GDT base address storage
 
+far_jump_address:
+    # Example: ljmp $0x8, $refreshGdt
+    .short 0 # Segment storage
+    .int 0   # Address offset storage
+
 .section .text
     .global loadGdt
     .global enablePaging
@@ -12,14 +17,27 @@ loadGdt:
     push %ebp
     mov %esp, %ebp
     mov 8(%esp), %eax
-    mov %eax, gdtloc+2
+    mov %eax, (gdtloc+2)
     mov 12(%esp), %ax
-    mov %ax, gdtloc
-    lgdt gdtloc
+    mov %ax, (gdtloc)
+    lgdt (gdtloc)
     mov %ebp, %esp
     pop %ebp
+    # Broken far jump
+    # mov $0x8, %ax
+    # mov %ax, (far_jump_address)
+    # mov $far_jump_address, %eax
+    # mov %eax, (far_jump_address+2)
+    # ljmp (far_jump_address)
+refreshGdt:
+    # 0x18 -> 3rd segment descriptor
+    mov $0x18, %ax
+    mov %ax, %ds
+    mov %ax, %es
+    mov %ax, %fs
+    mov %ax, %gs
+    mov %ax, %ss
     ret
-
 
 enablePaging:
     push %ebp
