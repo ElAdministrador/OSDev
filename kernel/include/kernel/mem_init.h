@@ -16,7 +16,7 @@ static const uint32_t GDT_LIMIT_ADDRESS = GDT_BASE_ADDRESS + sizeof(GDT);
 void init_gdt(void);
 
 /*
- * Loading page directory and page tables and avtivate paging.
+ * Loading page directory and page tables and activate paging.
  */
 void init_paging(void);
 

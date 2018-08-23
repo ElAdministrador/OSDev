@@ -22,11 +22,10 @@ void init_gdt()
 
 void init_paging()
 {
-    blank_page_dir();
+    blank_page_dir((uint32_t*) &page_directory);
+    blank_page_table((uint32_t*) &first_page_table);
 
-    // TODO assign kernel code as page in first page table
-    fill_first_page_table();
     page_directory[0] = ((unsigned int) first_page_table) | 3;
 
-    enablePaging();
+    enablePaging((uint32_t) &page_directory);
 }
