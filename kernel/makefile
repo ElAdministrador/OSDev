@@ -8,6 +8,7 @@ LDFLAGS?=
 LIBS?=
 
 OBJDIR?=obj
+DEPDIR?=dep
 DESTDIR?=
 PREFIX?=/usr/local
 EXEC_PREFIX?=$(PREFIX)
@@ -71,10 +72,10 @@ $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
 	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
 
 move-objects:
-	rm -f $(OBJDIR)/*.d
+	rm -f $(DEPDIR)/*.d
 	rm -f $(OBJDIR)/*.o
+	mv -f */*.d */*/*.d $(DEPDIR)/
 	mv -f */*.o */*/*.o $(OBJDIR)/
-	mv -f */*.d */*/*.d $(OBJDIR)/
 
 clean:
 	rm -f deros.kernel

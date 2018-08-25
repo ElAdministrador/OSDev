@@ -4,3 +4,4 @@ sysroot
 .vscode
 doc/TODO
 obj
+dep

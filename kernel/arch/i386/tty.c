@@ -17,9 +17,23 @@ static size_t terminal_row;
 static size_t terminal_column;
 static uint8_t terminal_color;
 static uint16_t* terminal_buffer;
+
+static uint16_t const VGA_INDEX_REGISTER = 0x3d4;
+static uint16_t const VGA_DATA_REGISTER = 0x3d5;
+static uint8_t const VGA_CMD_HIGH = 14;
+static uint8_t const VGA_CMD_LOW = 15;
+
+static void setHWCursor(int x, int y) {
+	uint16_t offset = y * VGA_WIDTH + x;
+	outb((uint16_t) VGA_INDEX_REGISTER, (uint8_t) VGA_CMD_HIGH);
+	outb((uint16_t) VGA_DATA_REGISTER, (uint8_t) (offset >> 8));
+	outb((uint16_t) VGA_INDEX_REGISTER, (uint8_t) VGA_CMD_LOW);
+	outb((uint16_t) VGA_DATA_REGISTER, (uint8_t) (offset & 0xFF));
+}
  
 void terminal_initialize(void)
 {
+	setHWCursor(0,0);
 	terminal_row = 0;
 	terminal_column = 0;
 	terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
@@ -79,6 +93,9 @@ void terminal_putchar(char c)
 				terminal_putentryat(' ', terminal_color, i, terminal_row);
 		}
 	}
+
+	// Set the HW cursor next position.
+	setHWCursor(terminal_column,terminal_row);
 }
  
 void terminal_write(const char* data, size_t size)
@@ -104,4 +121,6 @@ void terminal_backspace()
 	}
 
 	terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
+	// Move the HW cursor back
+	setHWCursor(terminal_column,terminal_row);
 }

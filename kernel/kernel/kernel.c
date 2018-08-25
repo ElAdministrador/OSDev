@@ -24,7 +24,7 @@ void kernel_main(void) {
 	terminal_initialize();
 	printf("Hello, %s%d%d!\n", "deros v", 0,1);
 
-	printf("\n");
+	/*printf("\n");
 	printf("virt %x phys %p\n", 0x100000, get_physaddr((void*) 0x100000));
 	printf("virt %x phys %p\n", 0x100001, get_physaddr((void*) 0x100001));
 	printf("virt %x phys %p\n", 0x100010, get_physaddr((void*) 0x100010));
@@ -38,7 +38,7 @@ void kernel_main(void) {
 	printf("virt pd:%x phys %p\n", (uint32_t) &page_directory,
 		get_physaddr((void*) &page_directory));
 	printf("virt pt:%x phys %p\n", (uint32_t) &master_page_table,
-		get_physaddr((void*) &master_page_table));
+		get_physaddr((void*) &master_page_table));*/
 
 	/*if (checkCPUID()) {
 		memset(&cpuInfo_global, 0, sizeof(cpuInfo_t));

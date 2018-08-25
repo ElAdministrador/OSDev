@@ -8,6 +8,5 @@ layout next
 
 #break _start
 break kernel_main
-#break checkGenuineIntel
 
 continue
