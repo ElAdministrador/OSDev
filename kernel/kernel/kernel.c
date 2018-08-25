@@ -1,9 +1,15 @@
-#include <stdio.h>
 
 #include <kernel/tty.h>
 #include <kernel/keyboard.h>
 #include <kernel/mem_init.h>
+#include <kernel/cpu.h>
+
+// Std Lib includes
 #include <string.h>
+#include <stdio.h>
+
+// GCC includes
+#include <cpuid.h>
 
 // Debugging
 #include <kernel/paging.h>
@@ -33,6 +39,37 @@ void kernel_main(void) {
 		get_physaddr((void*) &page_directory));
 	printf("virt pt:%x phys %p\n", (uint32_t) &master_page_table,
 		get_physaddr((void*) &master_page_table));
+
+	/*if (checkCPUID()) {
+		memset(&cpuInfo_global, 0, sizeof(cpuInfo_t));
+
+		unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
+		__get_cpuid(0, &eax, &ebx, &ecx, &edx);
+		cpuInfo_global.intelSignature = ebx == signature_INTEL_ebx &&
+										ecx == signature_INTEL_ecx &&
+										edx == signature_INTEL_edx;
+
+		__get_cpuid_max(0x0, &(cpuInfo_global.cpuInfo_maxBasic));
+		__get_cpuid_max(0x80000000, &(cpuInfo_global.cpuInfo_maxExt));
+
+		if (1 <= cpuInfo_global.cpuInfo_maxBasic) {
+			ecx = 0, edx = 0;
+			__get_cpuid(1, &eax, &ebx, &ecx, &edx);
+			cpuInfo_global.HTT = ((edx & (1 << 27)) >> 27);
+			cpuInfo_global.TM = ((edx & (1 << 28)) >> 28);
+		}
+
+		if (4 <= cpuInfo_global.cpuInfo_maxBasic) {
+			eax = 0xB;
+			__get_cpuid(4, &eax, &ebx, &ecx, &edx);
+		}
+
+		if (cpuInfo_global.intelSignature) {
+			printf ("Signature Intel\n");
+			printf ("HTT %d\n", cpuInfo_global.HTT);
+			printf ("TM %d\n", cpuInfo_global.TM);
+		}
+	}*/
 
 	printf ("\n");
 	while(1) {

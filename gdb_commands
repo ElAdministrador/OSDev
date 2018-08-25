@@ -3,9 +3,11 @@ target remote localhost:1234
 symbol-file kernel/deros.bin
 
 layout asm
+#layout regs
 layout next
 
 #break _start
 break kernel_main
+#break checkGenuineIntel
 
 continue
