@@ -7,6 +7,7 @@ CPPFLAGS?=
 LDFLAGS?=
 LIBS?=
 
+OBJDIR?=obj
 DESTDIR?=
 PREFIX?=/usr/local
 EXEC_PREFIX?=$(PREFIX)
@@ -40,23 +41,24 @@ $(ARCHDIR)/crtn.o \
 
 LINK_LIST=\
 $(LDFLAGS) \
-$(ARCHDIR)/crti.o \
-$(ARCHDIR)/crtbegin.o \
-$(KERNEL_OBJS) \
+$(OBJDIR)/crti.o \
+$(OBJDIR)/crtbegin.o \
+$(subst $(ARCHDIR),$(OBJDIR),$(KERNEL_ARCH_OBJS)) \
+$(OBJDIR)/kernel.o \
 $(LIBS) \
-$(ARCHDIR)/crtend.o \
-$(ARCHDIR)/crtn.o \
+$(OBJDIR)/crtend.o \
+$(OBJDIR)/crtn.o \
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S
 
 all: deros.bin #deros.kernel
 
-deros.kernel: $(OBJS) $(ARCHDIR)/linker.ld
-	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(LINK_LIST)
-	grub-file --is-x86-multiboot deros.kernel
+#deros.kernel: $(OBJS) $(ARCHDIR)/linker.ld
+	#$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(LINK_LIST)
+	#grub-file --is-x86-multiboot deros.kernel
 
-deros.bin: $(OBJS) $(ARCHDIR)/linker.ld
+deros.bin: $(OBJS) $(ARCHDIR)/linker.ld move-objects
 	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(LINK_LIST)
 
 $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
@@ -67,6 +69,12 @@ $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
 
 %.o: %.S
 	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+
+move-objects:
+	rm -f $(OBJDIR)/*.d
+	rm -f $(OBJDIR)/*.o
+	mv -f */*.o */*/*.o $(OBJDIR)/
+	mv -f */*.d */*/*.d $(OBJDIR)/
 
 clean:
 	rm -f deros.kernel
