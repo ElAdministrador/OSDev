@@ -5,7 +5,14 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
- 
+
+#if defined(__is_libk)
+#include <kernel/tty.h>
+#endif
+
+#define STD_COLOR 7
+#define DBG_COLOR 4
+
 static bool print(const char* data, size_t length)
 {
 	const unsigned char* bytes = (const unsigned char*) data;
@@ -16,12 +23,9 @@ static bool print(const char* data, size_t length)
 	}
 	return true;
 }
- 
-int printf(const char* restrict format, ...)
+
+static int print_VA(const char* restrict format, va_list parameters)
 {
-	va_list parameters;
-	va_start(parameters, format);
- 
 	int written = 0;
  
 	while (*format != '\0') {
@@ -130,7 +134,32 @@ int printf(const char* restrict format, ...)
 			format += len;
 		}
 	}
- 
+
+	return written;
+}
+
+// Print formatted output
+int printf(const char* restrict format, ...)
+{
+	terminal_setcolor(STD_COLOR);
+
+	va_list parameters;
+	va_start(parameters, format);
+	int written = print_VA(format, parameters);
 	va_end(parameters);
+	
+	return written;
+}
+
+// Print Debug output in different color
+int dprintf(const char* restrict format, ...)
+{
+	terminal_setcolor(DBG_COLOR);
+	
+	va_list parameters;
+	va_start(parameters, format);
+	int written = print_VA(format, parameters);
+	va_end(parameters);
+
 	return written;
 }

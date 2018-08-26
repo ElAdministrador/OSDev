@@ -10,8 +10,18 @@ far_jump_address:
     .int 0   # Address offset storage
 
 .section .text
+    .global detectLowMem
     .global loadGdt
     .global enablePaging
+
+detectLowMem:
+    clc           # Clear carry flag
+    int $0x12     # BIOS (real mode IVT call)
+    jc .dLMError  # Carry flag (1) indicates error
+    ret
+.dLMError:
+    ret
+
 
 loadGdt:
     push %ebp

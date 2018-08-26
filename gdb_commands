@@ -6,7 +6,7 @@ layout asm
 #layout regs
 layout next
 
-#break _start
-break kernel_main
+break _start
+#break kernel_main
 
 continue

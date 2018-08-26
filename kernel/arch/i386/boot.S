@@ -72,6 +72,8 @@ _start:
 
     /* GDT is loaded in Kernel main */
 
+	#call detectLowMem
+
 	# Call the global constructors.
 	call _init
 
